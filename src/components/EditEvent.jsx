@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { observer, inject } from 'mobx-react'
+import EditInfo from './EditDetails'
+import EditThemes from './EditThemes';
 
 class EditEvent extends Component {
     constructor() {
@@ -11,14 +13,21 @@ class EditEvent extends Component {
 
     componentDidMount() {
         this.props.eventsStore.loadDummyDataToStore()
-        console.log(JSON.stringify(this.props.eventsStore.events))
+        // console.log(JSON.stringify(this.props.eventsStore.events))
     }
 
     render(){
-        const titles = this.props.eventsStore.events.map(element => {return element.title})
+        // to be changed later
+         const info = this.props.eventsStore.events.map(element => {
+             return <EditInfo key={element.id} event={element}/>})
+             const themeSection = this.props.eventsStore.events.map(element => {
+                return <EditThemes key={element.id} event={element}/>})
         return(
             <div>
-                {titles}
+               {info} 
+               <hr></hr>
+               {themeSection}
+               <hr></hr>
             </div>
         )
     }

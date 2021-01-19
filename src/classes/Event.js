@@ -2,7 +2,8 @@ import {observable, makeObservable} from 'mobx'
 
 class Event {
 
-    constructor(client, status, title, occasion, date, startHour, endHour, numOfGuests, themes, food, flowers, allMusissions, places, organiser){
+    constructor(id, client, status, title, occasion, date, startHour, endHour, numOfGuests, theme, food, flowers, allMusissions, places, organiser){
+        this.id = id
         this.client = client
         this.status = status
         this.title = title
@@ -11,7 +12,7 @@ class Event {
         this.startHour = startHour
         this.endHour = endHour
         this.numOfGuests = numOfGuests
-        this.themes = themes
+        this.theme = theme
         this.food = food
         this.flowers = flowers
         this.allMusissions = allMusissions
@@ -27,7 +28,7 @@ class Event {
             startHour: observable,
             endHour: observable,
             numOfGuests: observable,
-            themes: observable,
+            theme: observable,
             food: observable,
             flowers: observable,
             allMusissions: observable,

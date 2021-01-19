@@ -3,7 +3,8 @@ import {observable, makeObservable} from 'mobx'
 
 class Theme {
 
-    constructor(title, isChosen, mainImg, images){
+    constructor(id, title, isChosen, mainImg, images){
+        this.id = id
         this.title = title
         this.isChosen = isChosen
         this.mainImg = mainImg

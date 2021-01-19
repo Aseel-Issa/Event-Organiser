@@ -1,5 +1,5 @@
 import { observable, makeObservable, action } from 'mobx'
-// import axios from 'axios'
+import axios from 'axios'
 import Event from './Event'
 import Client from './Client';
 import Theme from './Theme';
@@ -13,6 +13,7 @@ class EventStore {
     constructor() {
         this.events = []
         this.userType = ''
+        this.themes = []
 
         makeObservable(this, {
             events: observable,
@@ -30,19 +31,21 @@ class EventStore {
        
         const themes = []
         const images1 = []
-        images1.push('src/images/cinderella1.jpeg')
-        images1.push('src/images/cinderella2.jpeg')
-        images1.push('src/images/cinderella3.jpeg')
-        images1.push('src/images/cinderella4.jpeg')
-        const theme1 = new Theme('Cinderella', true, 'src/images/cinderella1.jpeg', images1)
+        images1.push('/images/cinderella1.jpeg')
+        images1.push('/images/cinderella2.jpg')
+        images1.push('/images/cinderella3.jpg')
+        images1.push('/images/cinderella4.jpg')
+        const theme1 = new Theme('1', 'Cinderella', true, '/images/cinderella1.jpeg', images1)
         themes.push(theme1)
        
         const images2 = []
-        images2.push('src/images/hawaiian1.jpeg')
-        images2.push('src/images/hawaiian2.jpeg')
-        const theme2 = new Theme('hawaiian', false, 'src/images/hawaiian1.jpeg', images2)
+        images2.push('/images/hawaiian1.jpg')
+        images2.push('/images/hawaiian2.jpeg')
+        const theme2 = new Theme('2', 'hawaiian', false, '/images/hawaiian1.jpg', images2)
         themes.push(theme2)
         
+        this.themes = themes
+
         const food = []
         const meal1 = new Food('Dinner', 'Sea Food', 'Shrimps, Calamari, Noodles and Tomato sauce', 100, 120, 'src/images/sea-food.jpeg', 'Add dill to the recipe', true)
         food.push(meal1)
@@ -62,7 +65,7 @@ class EventStore {
         places.push(place1)
 
         const organiser = new Organiser('1', 'Aseel Issa', '054-123-1234', 'fake-email@gmail.com')
-        const event = new Event(client, 'Negotiation', `Johne & Mary's Wedding`, 'Wedding', '2021-04-01', '8:00', '12:00', 100, themes, food, flowers, allMusissions, places, organiser)
+        const event = new Event('1',client, 'Negotiation', `Johne & Mary's Wedding`, 'Wedding', '2021-04-01', '20:00', '00:00', 100, theme1, food, flowers, allMusissions, places, organiser)
         this.events.push(event)
     }
 
@@ -70,14 +73,44 @@ class EventStore {
     loadAllEvents = async (clientId) => {
         // const results = await axios.get(`http://localhost:3001/events/:${clientId}`)
         // // console.log(results)
-        // this.events = results.data.map(element => {
+        // this.events = results.map(element => {
         //     return new Event(.......)
         // })
     }
 
     // updates an event from the client side and reflects it to the database too
-    updateEvent(){
+    async updateEvent(newEvent){
+        try{
+            const result =  await axios.put(`http://localhost:3001/event`, newEvent)
+            if(result){
+                return true
+            }
+        }catch(e){
+            console.log('Changes was not save to database')
+            console.log(e)
+        }finally{
+            return false
+        }
+    }
 
+    async LoadAllThemes(categor){
+        // this.themes= await axios.get(`http://localhost:3001/themes/:${categor}`)
+    }
+
+    // updates the store with the new changes, but does not send the changes to the database yet
+    // We save everything at onse in the updateEvent method
+    changeTheme(event, theme){
+        const updated = this.events.find(element => { return element.id == event.id})
+        const index = this.events.findIndex(element => { return element.id == event.id})
+        console.log(index)
+        const newTheme = this.themes.find(element => { return element.id == theme.id})
+        newTheme.isChosen=true
+        console.log(newTheme)
+        const oldTheme = this.themes.find(element => { return element.id == updated.theme.id})
+        oldTheme.isChosen=false
+        updated.theme = newTheme
+        console.log(oldTheme)
+        this.events[index] = updated
     }
 
 }
