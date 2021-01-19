@@ -3,7 +3,7 @@ import {observable, makeObservable} from 'mobx'
 
 class Food {
 
-    constructor(category, name, ingredients, quantity, price, img, specialComments){
+    constructor(category, name, ingredients, quantity, price, img, specialComments, isChosen){
         this.category = category
         this.name = name
         this.quantity = quantity
@@ -11,6 +11,7 @@ class Food {
         this.price = price
         this.img = img
         this.specialComments = specialComments
+        this.isChosen = isChosen
 
         makeObservable(this, {
             category: observable,
@@ -19,7 +20,8 @@ class Food {
             ingredients: observable,
             price: observable,
             img: observable,
-            specialComments: observable
+            specialComments: observable,
+            isChosen: observable
         })
     }
 }
