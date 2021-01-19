@@ -4,6 +4,7 @@ const Schema = mongoose.Schema
 const ThemeSchema = new Schema({
     title: String,
     mainImg: String,
+    category: String,
     Images: [String]
 })
 
