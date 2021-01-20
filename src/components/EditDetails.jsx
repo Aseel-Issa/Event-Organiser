@@ -3,7 +3,6 @@ import { observer, inject } from 'mobx-react'
 import TimePicker from './TimePicker';
 import DatePicker from './DatePicker'
 import TextField from '@material-ui/core/TextField';
-import { red } from '@material-ui/core/colors';
 
 
 class EditDetails extends Component {
@@ -25,7 +24,8 @@ class EditDetails extends Component {
             startHour: this.props.event.startHour,
             endHour: this.props.event.endHour,
             date: this.props.event.date,
-            guests: this.props.event.numOfGuests
+            guests: this.props.event.numOfGuests,
+            titleInput: this.props.event.title
         })
     }
 
