@@ -101,7 +101,55 @@ label.status > p{
 }
 
 .popupImg {
-  height: 35vh;
-  width: 30vw;
+  height: 27vh;
+  width: 20vw;
   margin: 1px;
+}
+
+.pageContent{
+  margin: 5vh;
+}
+
+body{
+  background-color: whitesmoke;
+}
+
+.food-option > div{
+  display: inline-block;
+}
+
+.food-image > img {
+  height: 27vh;
+  width: 25vw;
+}
+
+.food-actions{
+  height: 27vh;
+  width: 10vw;
+}
+
+.food-option{
+}
+
+.food-details{
+  height: 27vh;
+  width: 43vw;
+}
+
+textarea{
+  height: 10vh;
+}
+
+.tabBtn > .MuiButton-label{
+  background-color: rgb(14, 225, 240);
+  color: rgb(255, 248, 220);
+  font-weight: bold;
+  width: 12vw;
+  height: 7vh;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.tabBtn{
+  
 }

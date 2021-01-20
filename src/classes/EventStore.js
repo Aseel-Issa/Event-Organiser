@@ -14,13 +14,16 @@ class EventStore {
         this.events = []
         this.userType = ''
         this.themes = []
+        this.food = []
 
         makeObservable(this, {
             events: observable,
             userType: observable,
             loadAllEvents: action,
             updateEvent: action,
-            loadDummyDataToStore: action
+            loadDummyDataToStore: action,
+            removeFoodFromList: action,
+            addFoodToList: action
         })
     }
 
@@ -47,10 +50,16 @@ class EventStore {
         this.themes = themes
 
         const food = []
-        const meal1 = new Food('Dinner', 'Sea Food', 'Shrimps, Calamari, Noodles and Tomato sauce', 100, 120, 'src/images/sea-food.jpeg', 'Add dill to the recipe', true)
+        const meal1 = new Food('1', 'Dinner', 'Sea Food', 'Shrimps, Calamari, Noodles and Tomato sauce', 100, 120, '/images/sea-food.jpg', 'Add dill to the recipe', true, null)
         food.push(meal1)
-        const meal2 = new Food('Dinner', 'Barbecue', 'Dead meat, Chicken', 100, 85, 'src/images/barbecue.jpeg', null, true)
+        const meal2 = new Food('2', 'Dinner', 'Barbecue', 'Dead meat, Chicken', 100, 85, '/images/barbecue.jpg', null, true, null)
         food.push(meal2)
+
+        const sweets1 = new Food('3', 'sweets', 'cupcake', '', null, 5, '/images/cupcake1.jpeg', '', false, 'Oreo')
+
+        this.food.push(meal1)
+        this.food.push(meal2)
+        this.food.push(sweets1)
         
         const flowers = new Flowers('Rose', {onTable: true, price: 50}, {onEntry: true, price: 1500}, {numOfStands: 6, price: 150})
 
@@ -95,6 +104,21 @@ class EventStore {
 
     async LoadAllThemes(categor){
         // this.themes= await axios.get(`http://localhost:3001/themes/:${categor}`)
+    }
+
+    async LoadAllFoodOptions(){
+        //  this.food= await axios.get(`http://localhost:3001/food`)
+    }
+
+    removeFoodFromList(event, food){
+        const eventIndex = this.events.findIndex(element => {return element.id == event.id})
+        const foodIndex = this.events[eventIndex].food.findIndex(element => {return element.id == food.id})
+        this.events[eventIndex].food.splice(foodIndex, 1)
+    }
+
+    addFoodToList(event, food){
+        const index = this.events.findIndex(element => {return element.id == event.id})
+        this.events[index].food.push(food)
     }
 
     // updates the store with the new changes, but does not send the changes to the database yet

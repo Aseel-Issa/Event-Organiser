@@ -2,31 +2,38 @@ import React, { Component } from 'react'
 import { observer, inject } from 'mobx-react'
 import EditInfo from './EditDetails'
 import EditThemes from './EditThemes';
+import EditFoodSection from './EditFoodSection'
 
 class EditEvent extends Component {
     constructor() {
         super()
         this.state = {
-
+            event: undefined
         }
     }
 
-    componentDidMount() {
-        this.props.eventsStore.loadDummyDataToStore()
-        // console.log(JSON.stringify(this.props.eventsStore.events))
+    componentDidMount(){
+        this.setState({
+            event: this.props.event
+        })
+    }
+
+    updateEventState = (newEvent) => {
+       console.log('updateEventState     '+JSON.stringify(newEvent))
+        this.setState({event: newEvent})
     }
 
     render(){
-        // to be changed later
-         const info = this.props.eventsStore.events.map(element => {
-             return <EditInfo key={element.id} event={element}/>})
-             const themeSection = this.props.eventsStore.events.map(element => {
-                return <EditThemes key={element.id} event={element}/>})
+        if(this.state.event == undefined){
+            return null
+        }
         return(
-            <div>
-               {info} 
+            <div class='pageContent'>
+               <EditInfo event={this.state.event} updateEventState={this.updateEventState}/> 
                <hr></hr>
-               {themeSection}
+               <EditThemes event={this.state.event } updateEventState={this.updateEventState}/>
+               <hr></hr>
+               <EditFoodSection event={this.state.event} updateEventState={this.updateEventState}/>
                <hr></hr>
             </div>
         )
