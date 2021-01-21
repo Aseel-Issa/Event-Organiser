@@ -36,3 +36,165 @@
     transform: rotate(360deg);
   }
 }
+
+.details{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-gap: 1vmax;
+  padding: 1vmax;
+  box-shadow: 1px 1px 3px black;
+  width: 95%;
+  font-size: large;
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.themes-details{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
+  width: 95%;
+}
+
+.themes{
+  display: grid;
+  grid-gap: 1vmax;
+  padding: 1vmax;
+  box-shadow: 1px 1px 3px black;
+  width: 95%;
+}
+
+.food{
+  display: grid;
+  grid-gap: 1vmax;
+  padding: 1vmax;
+  box-shadow: 1px 1px 3px black;
+  width: 95%;
+}
+
+.flowers{
+  display: grid;
+  grid-gap: 1vmax;
+  padding: 1vmax;
+  box-shadow: 1px 1px 3px black;
+  width: 95%;
+}
+
+.head{
+  display: grid;
+  grid-gap: 1vmax;
+  padding: 1vmax;
+  box-shadow: 1px 1px 3px black;
+  width: 95%;
+}
+
+.edit{
+  float: right;
+}
+
+.music-details{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
+  width: 95%;
+}
+
+.music{
+  grid-gap: 1vmax;
+  padding: 1vmax;
+  box-shadow: 1px 1px 3px black;
+  width: 95%;
+}
+
+.place-details{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
+  width: 95%;
+}
+
+.place{
+  display: grid;
+  grid-gap: 1vmax;
+  padding: 1vmax;
+  box-shadow: 1px 1px 3px black;
+  width: 95%;
+}
+
+.tab-list {  
+  border-bottom: 1px solid #ccc;
+  padding-left: 0;
+}
+
+.tab-list-item {
+  display: inline-block;
+  list-style: none;
+  margin-bottom: -1px;
+  padding: 0.5rem 0.75rem;
+}
+
+.tab-list-active {
+  background-color: white;
+  border: solid #ccc;
+  border-width: 1px 1px 0 1px;
+}
+
+.food-item{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
+  grid-gap: 1vmax;
+  padding: 1vmax;
+  box-shadow: 1px 1px 3px gray;
+  width: 95%;
+}
+
+h3{
+  display: inline;
+}
+
+.flowers-item{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr;
+  grid-gap: 1vmax;
+  padding: 1vmax;
+  box-shadow: 1px 1px 3px gray;
+  width: 95%;
+}
+
+.flowers-item span{
+  display: block;
+}
+.main-image{
+  width: 200px;
+  height: 200px;
+
+}
+
+img{
+  width: 150px;;
+  height: 150px;
+}
+
+.status{
+  display: grid;
+  grid-gap: 1vmax;
+  padding: 1vmax;
+  box-shadow: 1px 1px 3px black;
+  width: fit-content;
+}
+
+.edit{
+  display: grid;
+  grid-gap: 1vmax;
+  padding: 1vmax;
+  width: fit-content;
+}
+
+
+
+
+
+
+
