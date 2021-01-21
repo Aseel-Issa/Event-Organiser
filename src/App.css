@@ -192,6 +192,14 @@ img{
   width: fit-content;
 }
 
+.buttons{
+  float: right;
+  display: grid;
+  grid-gap: 1vmax;
+  padding: 1vmax;
+  width: fit-content;
+}
+
 
 
 

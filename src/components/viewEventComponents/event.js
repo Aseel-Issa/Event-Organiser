@@ -7,6 +7,7 @@ import Flowers from './flowers'
 import Music from './music'
 import Place from './place'
 import { FaEdit } from "react-icons/fa";
+import Button from '@material-ui/core/Button';
 
 
 
@@ -28,6 +29,10 @@ class Event extends Component {
                 <Flowers flowers={event.flowers} />
                 <Music music={event.music} />
                 <Place place={event.place} />
+                <div className="buttons">
+                    <Button variant="contained" color="primary">Cancel</Button>
+                    <Button variant="contained" color="primary">Make Order</Button>
+                </div>
             </div>
         );
     }
