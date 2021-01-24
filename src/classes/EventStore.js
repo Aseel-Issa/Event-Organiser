@@ -12,6 +12,7 @@ import Organiser from './Organiser';
 class EventStore {
     constructor() {
         this.events = []
+        this.client = null
         this.userType = ''
         this.themes = []
         this.food = []
@@ -42,6 +43,7 @@ class EventStore {
         this.userType = 'client'
 
         const client = new Client('1', 'Johne Smith', '050-123-456', 'johnesmith@gmail.com', 'Jerusalem, Old city, 1234')
+        this.client = client
        
         const themes = []
         const images1 = []
@@ -111,12 +113,17 @@ class EventStore {
     }
 
     // This function should get all the events of the logged in user
-    loadAllEvents = async (clientId) => {
-        // const results = await axios.get(`http://localhost:3001/events/:${clientId}`)
-        // // console.log(results)
-        // this.events = results.map(element => {
-        //     return new Event(.......)
-        // })
+    async loadAllEvents(userId){
+        let results
+        if(this.userType == 'client'){
+            results = await axios.get(`http://localhost:3001/events/client/:${userId}`)
+        }else{
+            results = await axios.get(`http://localhost:3001/events/organiser/:${userId}`)
+        }
+        // console.log(results)
+        this.events = results.map(element => {
+            return new Event(element)
+        })
     }
 
     // updates an event from the client side and reflects it to the database too
@@ -136,9 +143,25 @@ class EventStore {
         }
     }
 
+    assignClient(client){
+        this.client = client
+        this.userType = 'client'
+        this.loadAllEvents(client.id)
+    }
+
+    assignOrganiser(organiser){
+        this.organiser = organiser
+        this.userType = 'organiser'
+        this.loadAllEvents(organiser.id)
+    }
+
     async LoadAllThemes(category){
         this.themes= await axios.get(`http://localhost:3001/themes/:${category}`)
     }
+
+    // async LoadClientInfo(userId){
+    //     this.client= await axios.get(`http://localhost:3001/client/${userId}`)
+    // }
 
     async LoadAllFoodOptions(){
          this.food= await axios.get(`http://localhost:3001/food`)

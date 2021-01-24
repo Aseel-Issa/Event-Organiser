@@ -150,3 +150,8 @@ textarea{
   border-radius: 5px;
   font-size: 16px;
 }
+
+.card{
+  display: inline-block;
+  margin: 2vh;
+}

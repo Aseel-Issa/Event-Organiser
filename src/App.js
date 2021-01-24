@@ -3,6 +3,7 @@ import { observer, inject } from 'mobx-react'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import React, { Component } from 'react'
 import EditEvent from './components/EditEvent';
+import MarketPlace from './components/MarketPlace';
 
 export class App extends Component {
 
@@ -19,7 +20,10 @@ export class App extends Component {
         <Router>
           <Link to="/editEvent">EditEventPage</Link>
           &nbsp;&nbsp;
+          <Link to="/marketplace">marketplace</Link>
+          &nbsp;&nbsp;
             <Route path="/editEvent" component={() => editEventPage} />
+            <Route path="/marketplace" component={() => <MarketPlace/>} />
         </Router>
       </div>
     )
