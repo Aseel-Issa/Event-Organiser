@@ -107,7 +107,8 @@ label.status > p{
 }
 
 .pageContent{
-  margin: 5vh;
+  margin-right: 30vh;
+  margin-left: 20vh;
 }
 
 body{
@@ -148,8 +149,4 @@ textarea{
   height: 7vh;
   border-radius: 5px;
   font-size: 16px;
-}
-
-.tabBtn{
-  
 }

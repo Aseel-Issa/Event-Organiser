@@ -2,7 +2,8 @@ import {observable, makeObservable} from 'mobx'
 
 class Place {
 
-    constructor(category, name, phone, address, price, img, specialComments, isChosen){
+    constructor(id, category, name, phone, address, price, img, specialComments, isChosen){
+        this.id = id
         this.category = category
         this.name = name
         this.phone = phone

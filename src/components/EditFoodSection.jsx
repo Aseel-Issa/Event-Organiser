@@ -14,53 +14,50 @@ class EditFoodSection extends Component {
         }
     }
 
-    componentDidMount(){
+    componentDidMount() {
         console.log('in cimponentDidMount of the EditFoodSection')
-        this.setState({foodChosen: this.props.event.food})
+        this.setState({ foodChosen: this.props.event.food })
         let finalFoodOptions = []
 
         this.props.eventsStore.food.forEach(element => {
             let item = this.props.event.food.filter(e => {
                 return e.id == element.id
             })
-            if(item.length == 0){
+            if (item.length == 0) {
                 finalFoodOptions.push(element)
             }
         });
-        this.setState({foodOptions: finalFoodOptions})
-        
+        this.setState({ foodOptions: finalFoodOptions })
+
     }
 
     updateEventFoodList = () => {
-        let newEvent = {...this.props.event}
+        let newEvent = { ...this.props.event }
         newEvent.food = []
         this.state.foodChosen.forEach(element => newEvent.food.push(element))
-        // console.log('newEvent')
-        // console.log(newEvent)
         this.props.updateEventState(newEvent)
     }
 
     updateChosenFoodDetails = (food) => {
-        let newEvent = {...this.props.event}
-        let index = newEvent.food.findIndex(element => {return element.id == food.id})
+        let newEvent = { ...this.props.event }
+        let index = newEvent.food.findIndex(element => { return element.id == food.id })
         // we are only interested in the chosen items
-        if(index!=-1){
-            newEvent.food[index] = {...food}
+        // generates a bug when trying to add a modified food option to list
+        if (index != -1) {
+            newEvent.food[index] = { ...food }
             this.props.updateEventState(newEvent)
         }
     }
 
     trasnferFoodFromOptions = (food) => {
-        // console.log('in trasnferFoodFromOptions')
         let newFoodOptions = []
         this.state.foodOptions.forEach(element => {
-            if(element.id != food.id) {
+            if (element.id != food.id) {
                 newFoodOptions.push(element)
-                }
-            })
-        let newFoodChosen = this.state.foodChosen.map(element => {return element})
+            }
+        })
+        let newFoodChosen = this.state.foodChosen.map(element => { return element })
         newFoodChosen.push(food)
-        // console.log('newFoodChosen '+ JSON.stringify(newFoodChosen))
         this.setState({
             foodOptions: newFoodOptions,
             foodChosen: newFoodChosen
@@ -68,15 +65,15 @@ class EditFoodSection extends Component {
             this.updateEventFoodList()
             this.props.eventsStore.addFoodToList(this.props.event, food)
         })
-        
-    
+
+
     }
 
     trasnferFoodFromChosen = (food) => {
-        let newFoodOptions = this.state.foodOptions.map(element => {return element})
-        let newFoodChosen =  []
+        let newFoodOptions = this.state.foodOptions.map(element => { return element })
+        let newFoodChosen = []
         this.state.foodChosen.forEach(element => {
-            if(element.id != food.id) {
+            if (element.id != food.id) {
                 newFoodChosen.push(element)
             }
         })
@@ -88,46 +85,43 @@ class EditFoodSection extends Component {
             this.updateEventFoodList()
             this.props.eventsStore.removeFoodFromList(this.props.event, food)
         })
-        
+
     }
 
-    render(){
-        // console.log('chosen list: '+JSON.stringify(this.state.foodChosen))
-        // console.log('options list: '+JSON.stringify(this.state.foodOptions))
+    assignContentToTab(tabs, element, content) {
+        if (element.category == 'sweets') {
+            tabs.sweetsTab.push(content)
+        }
+        else if (element.category == 'Dinner') {
+            tabs.mainDishTab.push(content)
+        }
+        else if (element.category == 'appetiser') {
+            tabs.appetiserTab.push(content)
+        }
+        return tabs
+
+    }
+
+    render() {
         const labels = ['Sweets', 'Main Dish', 'Appetiser']
-        const sweetsTab = []
-        const mainDishTab = []
-        const appetiserTab = []
+        const tabs = {
+            sweetsTab: [],
+            mainDishTab: [],
+            appetiserTab: []
+        }
         let content = null
         this.state.foodChosen.forEach(element => {
-            // console.log('element is: '+JSON.stringify(element))
-            content = <EditFoodOption key={'chosen'+element.id} event={this.props.event} food={element} isChosen={true} moveToOptions={this.trasnferFoodFromChosen} updateFoodDetails={this.updateChosenFoodDetails}/>
-            if(element.category == 'sweets'){
-                sweetsTab.push(content)
-            }
-            else if(element.category == 'Dinner'){
-                mainDishTab.push(content)
-            }
-            else if(element.category == 'appetiser'){
-                appetiserTab.push(content)
-            }
+            content = <EditFoodOption key={'chosenFood' + element.id} event={this.props.event} food={element} isChosen={true} moveToOptions={this.trasnferFoodFromChosen} updateFoodDetails={this.updateChosenFoodDetails} />
+            this.assignContentToTab(tabs, element, content)
         })
         this.state.foodOptions.forEach(element => {
-            content = <EditFoodOption key={'notChosen'+element.id} event={this.props.event} food={element} isChosen={false} moveToChosen={this.trasnferFoodFromOptions}  updateFoodDetails={this.updateChosenFoodDetails}/>
-            if(element.category == 'sweets'){
-                sweetsTab.push(content)
-            }
-            else if(element.category == 'Dinner'){
-                mainDishTab.push(content)
-            }
-            else if(element.category == 'appetiser'){
-                appetiserTab.push(content)
-            }
+            content = <EditFoodOption key={'notChosenFood' + element.id} event={this.props.event} food={element} isChosen={false} moveToChosen={this.trasnferFoodFromOptions} updateFoodDetails={this.updateChosenFoodDetails} />
+            this.assignContentToTab(tabs, element, content)
         })
-        const contents = [sweetsTab, mainDishTab, appetiserTab]
-        return(
+        const contents = [tabs.sweetsTab, tabs.mainDishTab, tabs.appetiserTab]
+        return (
             <div>
-                <FullWidthTabs labels={labels} content={contents}/>
+                <FullWidthTabs labels={labels} content={contents} />
             </div>
         )
     }
