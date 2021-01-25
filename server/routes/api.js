@@ -9,19 +9,43 @@ const Music = require('../models/Music')
 const Organizer  = require('../models/Organizer')
 const Place  = require('../models/Place')
 const Theme  = require('../models/Theme')
+const User  = require('../models/User')
 
 
 /*Event Routes
 */
+
+async function  papulateEvent(event) {
+    event.client = await Client.find({_id : event.client})
+    event.theme = await Theme.find({_id: event.theme})
+    event.place= await Place.find({_id: event.place})
+    event.organizer = await Organizer.find({_id: event.organizer})
+    if (event.music != null){
+        event.music.id = await Music.find({_id: event.music.id})
+    }
+    if (event.flowers != null){
+        event.flowers.id = await Flowers.find({_id: event.flowers.id})
+    }
+    for(let food of event.food){
+        food.id = await Food.find({_id : food.id})
+    }
+    return event
+}
+
+
 router.get('/event/:eventId' , function(req , res){
     let ID = req.params.eventId
-    Event.find({_id:ID}, function (err, EVentData){
-        res.send(EVentData)
+    let temp = {}
+    Event.find({_id:ID}, async function (err, EVentData){
+        temp = await papulateEvent(EVentData)
+        res.send(temp)
     })
 })
 router.post('/event' , function(req , res){
     let EventData = req.body
+    console.log(EventData)
     let newEvent = new Event(EventData)
+    console.log(newEvent)
     newEvent.save()
     res.end()
 
@@ -33,10 +57,18 @@ router.put('/event/:eventId' , function(req , res){
         res.end()
     })
 })
-router.get('/events' , function(req , res){
-    Event.find({}, function (err, EVentsData){
-        console.log(EVentsData)
-        res.send(EVentsData)
+
+router.get('/events/:clientId' , function(req , res){
+    let ID = req.params.clientId
+    let newListOfData =[]
+    let temp ={}
+    Event.find({client : ID}, async function (err, EVentsData){
+        for (let event of EVentsData){
+            temp = await papulateEvent(event)
+            newListOfData.push(temp)
+        }
+        console.log(newListOfData)
+        res.send(newListOfData)
     })
 })
 
@@ -53,6 +85,12 @@ router.put('/food/:foodId' , function(req , res){
     let updatedData = req.body
     Food.findOneAndUpdate({_id :ID}, updatedData ,function(req, res){
         res.end()
+    })
+})
+
+router.get('/food/' , function(req , res){
+    Food.find({}, function (err, foodData){
+        res.send(foodData)
     })
 })
 
@@ -80,6 +118,11 @@ router.get('/theme/:category' , function(req , res){
         res.send(themeData)
     })
 })
+router.get('/theme' , function(req , res){
+    Theme.find({}, function (err, themeData){
+        res.send(themeData)
+    })
+})
 
 // orgenaizire routes
 router.post('/Organizer' , function(req , res){
@@ -94,6 +137,55 @@ router.get('/Organizer' , function(req , res){
         console.log(OrganizerData)
         res.send(OrganizerData)
     })
+})
+
+//music router
+router.get('/music/:category' , function(req , res){
+    Music.find({}, function (err, musicData){
+        res.send(musicData)
+    })
+})
+
+
+//places routes
+router.get('/place/' , function(req , res){
+    Place.find({}, function (err, placeData){
+        res.send(placeData)
+    })
+})
+
+//flowers routes
+router.get('/flower' , function(req , res){
+    Flowers.find({}, function (err, flowerData){
+        res.send(flowerData)
+    })
+})
+
+//user routes
+router.get('/user/:usernmae/:password' , function(req , res){
+    let username = req.params.username
+    let password = req.params.password
+    User.find({nmae : username , password : password}, function (err, userData){
+        if (userData = []){
+            res.send(false)
+        }else{
+            res.send(userData)
+        }
+        
+    })
+})
+
+router.post('/register' , async function(req , res){
+    let userData = req.body
+    let tempuser = await User.find({email:userData.email})
+    if(tempuser != []){
+        return false
+    }
+    console.log(userData)
+    let newuser = new User(userData)
+    console.log(newuser)
+    newuser.save()
+    res.end()
 })
 
 
