@@ -39,6 +39,12 @@ class EventStore {
         })
     }
 
+    getClient(){
+        const client = new Client('1', 'Johne Smith', '050-123-456', 'johnesmith@gmail.com', 'Jerusalem, Old city, 1234')
+        return client
+        // to be return this.client
+    }
+
     loadDummyDataToStore(){
         this.userType = 'client'
 
@@ -133,6 +139,24 @@ class EventStore {
             if(result){
                 const eventIndex = this.events.findIndex(element => {return element.id == newEvent.id})
                 this.events[eventIndex] = newEvent
+                return true
+            }
+        }catch(e){
+            console.log('Changes was not save to database')
+            console.log(e)
+        }finally{
+            return false
+        }
+    }
+
+    async createEvent(event){
+        try{
+            // post request should return the id of the created event
+            const result =  await axios.post(`http://localhost:3001/event`, event)
+            if(result){
+                const eventIndex = this.events.findIndex(element => {return element.id == event.id})
+             //   this.events[eventIndex].id = result.id
+            //  return result.id
                 return true
             }
         }catch(e){

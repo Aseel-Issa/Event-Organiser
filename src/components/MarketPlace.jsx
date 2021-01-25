@@ -42,7 +42,7 @@ class MarketPlace extends Component {
                 return null
             }
             if((element.occasion.toLowerCase() == this.state.occasionFilter.toLowerCase() ||  this.state.occasionFilter == 'All')&& (element.client.address.toLowerCase().includes(this.state.searchStr.toLowerCase()) || this.state.searchStr=='')){
-                return <div className='card' key={'div-' + element.id}><EventCard display={true} key={element.id} event={element} assignEventRequest={this.assignEventRequest} /></div>
+                return <div className='card' key={'div-' + element.id}><EventCard display={true} key={element.id} event={element} assignEventRequest={this.assignEventRequest} userType={this.props.marketplaceStore.userType} showAssignmentBtn={true}/></div>
             }
             else{
                 return null

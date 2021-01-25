@@ -19,6 +19,7 @@ class EditMusicSection extends Component {
         let finalMusicOptions = []
 
         this.props.eventsStore.musicList.forEach(element => {
+            console.log('event: '+JSON.stringify(this.props.event))
             let item = this.props.event.musicList.filter(e => {
                 return e.id == element.id
             })

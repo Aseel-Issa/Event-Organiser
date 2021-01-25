@@ -61,6 +61,10 @@ export default function EventCard(props) {
     if(!props.display){
             return null
     }
+    let requestBtn = null
+    if(props.userType== 'organiser' && props.showAssignmentBtn){
+        requestBtn = <Button onClick={assignEventRequest}>Request for assignment</Button>
+    }
     return (
         <Card className={classes.root}>
             <CardHeader
@@ -85,7 +89,7 @@ export default function EventCard(props) {
             </CardContent>
             <CardActions disableSpacing>
                 <Button onClick={viewEvent}>View</Button>
-                <Button onClick={assignEventRequest}>Request for assignment</Button>
+                {requestBtn}
             </CardActions>
         </Card>
     );

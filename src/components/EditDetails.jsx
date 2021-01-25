@@ -30,42 +30,73 @@ class EditDetails extends Component {
     }
 
     handleTitle = (e) => {
+        const newEvent = {...this.props.event}
+        newEvent.titleInput = e.target.value
         this.setState({
             titleInput: e.target.value
-        })
+        }, this.props.updateEventState(newEvent))
     }
 
     handleStartHour = (hour) => {
+        const newEvent = {...this.props.event}
+        newEvent.startHour = hour
         this.setState({
             startHour: hour
-        })
+        }, this.props.updateEventState(newEvent))
     }
 
     handleEndHour = (hour) => {
+        const newEvent = {...this.props.event}
+        newEvent.endHour = hour
         this.setState({
             endHour: hour
-        })
+        }, this.props.updateEventState(newEvent))
     }
 
     handleDate = (date) => {
+        const newEvent = {...this.props.event}
+        newEvent.date = date
         this.setState({
             date: date
-        })
+        }, this.props.updateEventState(newEvent))
     }
 
     handleOccasion = (e) => {
+        const newEvent = {...this.props.event}
+        newEvent.occasion = e.target.value
         this.setState({
             occasion: e.target.value
-        }, this.props.eventsStore.LoadAllThemes())
+        }, () => {this.props.eventsStore.LoadAllThemes()
+            this.props.updateEventState(newEvent)})
     }
 
     handleGuests = (e) => {
+        const newEvent = {...this.props.event}
+        newEvent.guests = e.target.value
         this.setState({
             guests: e.target.value
-        })
+        }, this.props.updateEventState(newEvent))
     }
 
     render() {
+        let organiserName = null
+        let organiserPhone = null
+        let organiserEmail = null
+        if(this.props.event.organiser != null && this.props.event.organiser!=undefined ){
+            organiserName = (<td>{this.props.event.organiser.name}</td>)
+            organiserPhone = (<td>{this.props.event.organiser.phone}</td>)
+            organiserEmail = (<td>{this.props.event.organiser.email}</td>)
+        }
+        let clientName = null
+        let clientPhone = null
+        let clientEmail = null
+        let clientAddress = null
+        if(this.props.event.client != null && this.props.event.client!=undefined ){
+            clientName = (<td>{this.props.event.client.name}</td>)
+            clientPhone = (<td>{this.props.event.client.phone}</td>)
+            clientEmail = (<td>{this.props.event.client.email}</td>)
+            clientAddress = (<td>{this.props.event.client.address}</td>)
+        }
         return (
             <div>
                 <br></br>
@@ -82,27 +113,27 @@ class EditDetails extends Component {
                     <tr>
 
                         <td>Client</td>
-                        <td>{this.props.event.client.name}</td>
+                        {clientName}
                         <td>Organiser</td>
-                        <td>{this.props.event.organiser.name}</td>
+                        {organiserName}
                     </tr>
                     <tr>
 
                         <td>Phone</td>
-                        <td>{this.props.event.client.phone}</td>
+                        {clientPhone}
                         <td>Phone</td>
-                        <td>{this.props.event.organiser.phone}</td>
+                        {organiserPhone}
                     </tr>
                     <tr>
 
                         <td>Email</td>
-                        <td>{this.props.event.client.email}</td>
+                        {clientEmail}
                         <td>Email</td>
-                        <td>{this.props.event.organiser.email}</td>
+                        {organiserEmail}
                     </tr>
                     <tr>
                         <td>address</td>
-                        <td>{this.props.event.client.address}</td>
+                        {clientAddress}
                         <td></td>
                         <td></td>
                     </tr>
