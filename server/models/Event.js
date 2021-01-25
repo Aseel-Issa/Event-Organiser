@@ -3,30 +3,30 @@ const Schema = mongoose.Schema
 
 const EventSchema = new Schema({
     title: String,
-    client:{type: Schema.Types.ObjectId, ref: 'Client'},
+    client: String, // id
     status: String,
     occasion: String,
     date: Date,
     startHour: String,
     endHour: String,
     numOfGuests: Number,
-    theme: {type: Schema.Types.ObjectId, ref: 'Theme'},
+    theme: String, // id
     food: [{
-              id: {type: Schema.Types.ObjectId, ref: 'Food'}, 
+              id: String, // id 
               price: Number
            }],
-    flowers: [{
-                id:{type: Schema.Types.ObjectId, ref: 'Flowers'},
+    flowers: {
+                id: String, // id
                 onTable: Boolean,
                 onEntry: Boolean,
                 numOfStands: Number
-            }],
+            },
     music:  {
-              id:{type: Schema.Types.ObjectId, ref: 'Music'},
+              id: String, // id
               price: Number
             },
-    place:  {type: Schema.Types.ObjectId, ref: 'Place'},
-    organizer:  {type: Schema.Types.ObjectId, ref: 'Organizer'}
+    place:  String, // id
+    organizer: String // id
 })
 
 
