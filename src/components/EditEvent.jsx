@@ -25,7 +25,7 @@ class EditEvent extends Component {
             console.log('create instance')
             const flowersType = this.props.eventsStore.flowers[0]
             const fakeId = Math.floor(Math.random() * 1000000);
-            const emptyEvent = new Event(fakeId.toString(), this.props.eventsStore.getClient(), 'Pending', '', 'Wedding', '', '', '', 0, this.props.eventsStore.themes[0], [], new Flowers(flowersType.category, { onTable: false, price: flowersType.onTablePrice }, { onEntry: false, price: flowersType.onEntryPrice }, { numOfStands: 0, price: flowersType.standPrice }), [], [], null, [])
+            const emptyEvent = new Event(fakeId.toString(), this.props.eventsStore.getClient(), 'Pending', '', 'Wedding', '', '', '', 0, this.props.eventsStore.themes[0], [], new Flowers(flowersType.id, flowersType.category, { onTable: false, price: flowersType.onTablePrice }, { onEntry: false, price: flowersType.onEntryPrice }, { numOfStands: 0, price: flowersType.standPrice }), [], [], null, [])
             this.props.eventsStore.events.push(emptyEvent)
             console.log('emptyEvent: ' + JSON.stringify(emptyEvent))
             this.setState({
@@ -53,7 +53,10 @@ class EditEvent extends Component {
     }
 
     saveEvent = () => {
-        this.event.id = this.props.eventsStore.createEvent(this.state.event)
+        // const id = 
+        // console.log('save this event'+ JSON.stringify(this.state.event))
+        this.props.eventsStore.createEvent({...this.state.event})
+        // route to event view page
     }
 
     cancelEditingRedirectToViewPage = () => {

@@ -31,7 +31,7 @@ class EditDetails extends Component {
 
     handleTitle = (e) => {
         const newEvent = {...this.props.event}
-        newEvent.titleInput = e.target.value
+        newEvent.title = e.target.value
         this.setState({
             titleInput: e.target.value
         }, this.props.updateEventState(newEvent))

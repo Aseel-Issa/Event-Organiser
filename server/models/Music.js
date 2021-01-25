@@ -3,11 +3,10 @@ const Schema = mongoose.Schema
 
 const MusicSchema = new Schema({
     category: String,
-    phone: Number,
+    phone: String,
     name: String,
     price: Number,
-    img: String,
-    specialComments: String
+    img: String
 })
 
 const Music = mongoose.model("Music", MusicSchema)

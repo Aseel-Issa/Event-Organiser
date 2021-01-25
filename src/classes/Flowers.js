@@ -3,7 +3,8 @@ import {observable, makeObservable} from 'mobx'
 
 class Flowers {
 
-    constructor(category, table, entry, stands){
+    constructor(id, category, table, entry, stands){
+        this.id = id
         this.category = category
         this.table = table
         this.entry = entry

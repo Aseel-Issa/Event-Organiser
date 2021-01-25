@@ -10,8 +10,8 @@ import { createBrowserHistory as history} from 'history';
 
 export class App extends Component {
 
-  componentDidMount() {
-    this.props.eventsStore.loadDummyDataToStore()
+  async componentDidMount() {
+    await this.props.eventsStore.loadDummyDataToStore()
   }
 
   render() {

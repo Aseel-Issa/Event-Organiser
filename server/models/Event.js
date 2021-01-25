@@ -17,16 +17,26 @@ const EventSchema = new Schema({
            }],
     flowers: {
                 id: String, // id
-                onTable: Boolean,
-                onEntry: Boolean,
-                numOfStands: Number
+                table: {
+                    onTable: Boolean,
+                    price: Number
+                },
+                entry: {
+                    onEntry: Boolean,
+                    price: Number
+                },
+                stands: {
+                    numOfStands: Number,
+                    price: Number
+                }
             },
-    music:  {
+    musicList:  [{
               id: String, // id
               price: Number
-            },
+            }],
     place:  String, // id
-    organizer: String // id
+    organizer: String, // id
+    assignmentRequests: [String] // array of organiser's ids
 })
 
 

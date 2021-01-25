@@ -4,11 +4,9 @@ const Schema = mongoose.Schema
 const FoodSchema = new Schema({
     name: String,
     category: String,
-    ingredients: [String],
-    quantity: Number,
+    ingredients: String,
     price: Number,
-    img: String,
-    specialComments: String
+    img: String
 })
 
 const Food = mongoose.model("Food", FoodSchema)

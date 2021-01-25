@@ -21,11 +21,13 @@ class EventsPage extends Component {
     componentDidMount() {
         // this.props.eventsStore.loadDummyDataToStore()   // data is already loaded in the app.js file
         if (this.props.eventsStore.userType == 'client') {
+            console.log('create button should appear')
             this.setState({
                 cardsToShow: this.props.eventsStore.events,
                 createBtn: <Button onClick={this.createNewEvent}>Create</Button>
             })
         } else {
+            console.log('create button should not appear')
             this.setState({
                 cardsToShow: this.props.eventsStore.events
             })

@@ -140,17 +140,20 @@ class EditFlowersSection extends Component {
     }
 
     render() {
+        let options = null
+        if(this.props.eventsStore.flowers){
+             options = this.props.eventsStore.flowers.map(element => {
+                return <option value={element.category} data-id={element.id}>{element.category}</option>
+            })
+        }
+        
         return (
             <table className='flowersSection'>
                 <tbody>
                     <tr>
                         <td>Main flowers type in decoration</td>
                         <td><select value={this.state.flowersType} onChange={this.handleFlowersType}>
-                            <option value="Tulip">Tulip</option>
-                            <option value="Rose">Rose</option>
-                            {/* <option value="ANTHURIUM">ANTHURIUM</option>
-                                <option value="HYACINTH">HYACINTH</option>
-                                <option value="RANUNCULUS">RANUNCULUS</option> */}
+                            {options}
                         </select></td>
                     </tr>
                     <tr>
