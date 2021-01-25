@@ -9,7 +9,7 @@ mongoose.connect(`mongodb+srv://event-planer:event-planer@cluster0.rpgqj.mongodb
 
 // html connect
 const app = express() 
-//app.use(express.static(path.join(__dirname, 'dist')))
+app.use(express.static(path.join(__dirname, 'dist')))
 
 
 /// for the post use ($.post)
