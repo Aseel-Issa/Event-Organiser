@@ -159,7 +159,6 @@ h3{
   grid-template-rows: 1fr;
   grid-gap: 1vmax;
   padding: 1vmax;
-  box-shadow: 1px 1px 3px gray;
   width: 95%;
 }
 

@@ -1,42 +1,39 @@
 import React, { Component } from 'react';
-import Tabs from './tabs'
-import FlowersItem from './flowersItem'
+import { FaCheck, FaTimes } from "react-icons/fa";
 
-class Food extends Component {
-    getCategories(){
-        let categories = {}
-        for(let f of this.props.flowers){
-          if(f.category in categories){
-            categories[f.category].push(f)
-          }else {
-            categories[f.category] = [f]
-          }
-        }
-        return categories
-      }
+class Flowers extends Component {
+  render() {
+    const flowers = this.props.flowers
+    const onTable = flowers.table.onTable
+    const onEntry = flowers.entry.onEntry
+    let yes = <FaCheck /> 
+    let no = <FaTimes />
+    let onTableIcon, onEntryIcon
+    onTable ? onTableIcon = yes : onTableIcon = no
+    onEntry ? onEntryIcon = yes : onEntryIcon = no
+    return(
+      <div className="flowers">
+        <h1>Flowers</h1>
+        <div className="flowers-item">
+               <div>
+                   <span>Flowers on entry door {onEntryIcon}</span>
+                   <span>Flowers on tables {onTableIcon}</span>
+                   <span>Number of flower Stands {flowers.stands.numOfStands}</span>
+               </div>
+               <div>
+                   <span>Price: {flowers.entry.price}</span>
+                   <span>Price: {flowers.table.price}</span>
+                   <span>Price/stand: {flowers.stands.price}</span>
 
-      flowersItems(categories, categoryName){
-          if(categories[categoryName]){
-            return categories[categoryName].map(i => {return <FlowersItem item={i} />})
-          }
-        
-      }
-
-    render() {
-        const categories = this.getCategories()
-        const labels = Object.keys(categories)
-        return(
-            <div className="flowers">
-                <h1>Flowers</h1>
-                <Tabs> 
-                    {labels.map(l => {return <div label={l}> 
-          {this.flowersItems(categories, l)}
-       </div>})}
-     </Tabs>
-            </div>
-        )
-
-    }
+               </div>
+               <div>
+                   <img src={flowers.Img} />
+               </div>
+            
+        </div>
+        </div>
+    )
+}
 }
 
-export default Food;
+export default Flowers;

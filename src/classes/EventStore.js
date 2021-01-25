@@ -64,7 +64,7 @@ class EventStore {
         places.push(place1)
 
         const organiser = new Organiser('1', 'Aseel Issa', '054-123-1234', 'fake-email@gmail.com')
-        const event = new Event(client, 'Negotiation', `Johne & Mary's Wedding`, 'Wedding', '2021-04-01', '8:00', '12:00', 100, theme1, food, flowers, music1, place1, organiser)
+        const event = new Event(client, 'Negotiation', `Johne & Mary's Wedding`, 'Wedding', '2021-04-01', '8:00', '12:00', 100, theme1, food, flowers1, music1, place1, organiser)
         this.events.push(event)
     }
 
