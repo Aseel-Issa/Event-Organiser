@@ -1,7 +1,6 @@
 import {observable, makeObservable} from 'mobx'
 
 class Event {
-
     constructor(id, client, status, title, occasion, date, startHour, endHour, numOfGuests, theme, food, flowers, musicList, place, organiser, assignmentRequests){
         this.id = id
         this.client = client
