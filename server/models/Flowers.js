@@ -2,10 +2,10 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const FlowersSchema = new Schema({
-    Name: String,
-    Img: String,
-    tablePrice: Number,
-    entryPrice: Number,
+    category: String,
+    img: String,
+    onTablePrice: Number,
+    onEntryPrice: Number,
     standPrice: Number
 })
 

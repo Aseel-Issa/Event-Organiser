@@ -44,7 +44,7 @@ function a11yProps(index) {
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.paper,
-    width: '90vw',
+    // width: '90vw',
   },
 }));
 
@@ -68,9 +68,6 @@ export default function FullWidthTabs(props) {
   let tabPanels = props.content.map((element, contentIndex) => {return (<TabPanel value={value} index={contentIndex++} dir={theme.direction} p={props.content.length}>
     {element}
     </TabPanel>)})
-
-    // console.log(tabs.length)
-    // console.log(tabPanels.length)
   return (
     <div className={classes.root}>
       <AppBar position="static" color="default">
@@ -83,9 +80,6 @@ export default function FullWidthTabs(props) {
           aria-label="full width tabs example"
         >
         {tabs}
-          {/* <Tab label={props.labels[0]} {...a11yProps(0)} />
-          <Tab label={props.labels[1]} {...a11yProps(1)} />
-          <Tab label={props.labels[2]} {...a11yProps(2)} /> */}
         </Tabs>
       </AppBar>
       <SwipeableViews
@@ -94,15 +88,6 @@ export default function FullWidthTabs(props) {
         onChangeIndex={handleChangeIndex}
       >
       {tabPanels}
-        {/* <TabPanel value={value} index={0} dir={theme.direction}>
-        {props.content[0]}
-        </TabPanel>
-        <TabPanel value={value} index={1} dir={theme.direction}>
-        {props.content[1]}
-        </TabPanel>
-        <TabPanel value={value} index={2} dir={theme.direction}>
-        {props.content[2]}
-        </TabPanel> */}
       </SwipeableViews>
     </div>
   );

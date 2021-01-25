@@ -107,7 +107,8 @@ label.status > p{
 }
 
 .pageContent{
-  margin: 5vh;
+  margin-right: 30vh;
+  margin-left: 20vh;
 }
 
 body{
@@ -150,6 +151,7 @@ textarea{
   font-size: 16px;
 }
 
-.tabBtn{
-  
+.card{
+  display: inline-block;
+  margin: 2vh;
 }

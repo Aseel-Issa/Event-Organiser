@@ -88,8 +88,15 @@ router.put('/food/:foodId' , function(req , res){
     })
 })
 
-router.get('/food/' , function(req , res){
+router.get('/food' , function(req , res){
     Food.find({}, function (err, foodData){
+        res.send(foodData)
+    })
+})
+
+router.delete('/food/:foodId' , function(req , res){
+    let ID = req.params.foodId
+    Food.findOneAndDelete({_id :ID}, function (err, foodData){
         res.send(foodData)
     })
 })
@@ -107,7 +114,7 @@ router.post('/Client' , function(req , res){
 // theme routes
 router.post('/theme' , function(req , res){
     let themeData = req.body
-    let newtheme = new theme(themeData)
+    let newtheme = new Theme(themeData)
     newtheme.save()
     res.end()
 
@@ -148,10 +155,16 @@ router.get('/music/:category' , function(req , res){
 
 
 //places routes
-router.get('/place/' , function(req , res){
+router.get('/place' , function(req , res){
     Place.find({}, function (err, placeData){
         res.send(placeData)
     })
+})
+router.post('/place' , function(req , res){
+    let placeData = req.body
+    let place = new Place(placeData)
+    place.save()
+    res.end()
 })
 
 //flowers routes
@@ -159,6 +172,25 @@ router.get('/flower' , function(req , res){
     Flowers.find({}, function (err, flowerData){
         res.send(flowerData)
     })
+})
+router.post('/flower' , function(req , res){
+    let flowersData = req.body
+    let flower = new Flowers(flowersData)
+    flower.save()
+    res.end()
+})
+
+//music routes
+router.get('/music' , function(req , res){
+    Music.find({}, function (err, musicData){
+        res.send(musicData)
+    })
+})
+router.post('/music' , function(req , res){
+    let musicData = req.body
+    let music = new Music(musicData)
+    music.save()
+    res.end()
 })
 
 //user routes
@@ -174,6 +206,20 @@ router.get('/user/:usernmae/:password' , function(req , res){
         
     })
 })
+
+router.post('/user' , function(req , res){
+    const userData = req.body
+    const user = new User(userData)
+    user.save()
+    res.end()
+})
+
+router.get('/users' , function(req , res){
+    User.find({}, function (err, userData){
+        res.send(userData)
+    })
+})
+
 
 router.post('/register' , async function(req , res){
     let userData = req.body

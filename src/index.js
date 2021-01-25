@@ -5,11 +5,14 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import EventStore from './classes/EventStore';
 import { Provider } from 'mobx-react'
+import MarketplaceStore from './classes/MarketplaceStore'
 
 let eventsStore = new EventStore()
+let marketplaceStore = new MarketplaceStore()
 
 const stores = {
-  eventsStore
+  eventsStore,
+  marketplaceStore
 }
 
 

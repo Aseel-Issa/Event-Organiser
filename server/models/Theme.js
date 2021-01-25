@@ -5,7 +5,7 @@ const ThemeSchema = new Schema({
     title: String,
     mainImg: String,
     category: String,
-    Images: [String]
+    images: [String]
 })
 
 const Theme = mongoose.model("Theme", ThemeSchema)
