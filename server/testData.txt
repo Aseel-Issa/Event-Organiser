@@ -1,0 +1,135 @@
+
+// Data in Food table
+{
+    "category": "Dinner",
+    "name": "Sea Food",
+    "ingredients": "Shrimps, Calamari, Noodles and Tomato sauce",
+    "price": "120",
+    "img": "/images/sea-food.jpg",
+    "falvor": null
+}
+
+{
+        "category": "Dinner",
+        "name": "Barbecue",
+        "ingredients": "Dead meat, Chicken",
+        "price": "85",
+        "img": "/images/barbecue.jpg",
+        "falvor": null
+}
+
+{
+        "category": "sweets",
+        "name": "cupcake",
+        "ingredients": null,
+        "price": "5",
+        "img": "/images/cupcake1.jpeg",
+        "falvor": "Oreo"
+}
+
+// Flowers table
+{
+        "category": "Rose",
+        "img": "/images/rose.jpeg",
+        "onTablePrice": "50",
+        "onEntryPrice": "1500",
+        "standPrice": "150"
+}
+{
+        "category": "Tulip",
+        "img": "/images/tulip.jpeg",
+        "onTablePrice": "80",
+        "onEntryPrice": "1900",
+        "standPrice": "200"
+}
+
+// music table
+{
+        "category": "D.J",
+        "phone": "052-123-1234",
+        "name": "Toam Sawyer",
+        "price": "2000",
+        "img": "/images/undefindMale.png"
+}
+{
+        "category": "D.J",
+        "phone": "052-345-6789",
+        "name": "Sara Anderson",
+        "price": "2200",
+        "img": "/images/undefinedFemale.png"
+}
+
+// place table
+
+{
+        "category": "",
+        "phone": "",
+        "address": "",
+        "name": "",
+        "price": "0",
+        "img": "/images/undefinedPlace.png"
+}
+{
+        "category": "open space",
+        "phone": "052-123-1234",
+        "address": "Jerusalem, Tal Piot",
+        "name": "Bell Park",
+        "price": "15000",
+        "img": "/images/bellPark.jpg"
+}
+{
+        "category": "hall",
+        "phone": "052-123-1234",
+        "address": "Yad Harutsim St 22, Jerusalem",
+        "name": "Kedma Midtown",
+        "price": "15000",
+        "img": "/images/place2.jpeg"
+}
+
+// Themes table
+{
+        "category": "wedding",
+        "title": "Cinderella",
+        "mainImg": "/images/cinderella1.jpeg",
+        "images": ["/images/cinderella1.jpeg", "/images/cinderella2.jpg", "/images/cinderella3.jpg", "/images/cinderella4.jpg"]
+}
+{
+        "category": "wedding",
+        "title": "Hawaiian",
+        "mainImg": "/images/hawaiian1.jpg",
+        "images": ["/images/hawaiian1.jpg", "/images/hawaiian2.jpeg"]
+}
+{
+        "category": "birthday",
+        "title": "Frosen",
+        "mainImg": "/images/frosen1.jpg",
+        "images": ["/images/frosen1.jpg", "/images/frosen2.jpg"]
+}
+
+// User table
+{
+    "name": "Johne Smith",
+    "phone": "050-123-456",
+    "email": "johnesmith@gmail.com",
+    "address": "Jerusalem, Old city, 1234",
+    "password": "123456",
+    "userType": "client"
+}
+
+{
+    "name": "Johne Smith",
+    "phone": "050-123-456",
+    "email": "johnesmith@gmail.com",
+    "address": "Jerusalem, Old city, 1234",
+    "password": "123456",
+    "userType": "client"
+}
+
+{
+    "name": "Aseel Issa",
+    "phone": "054-123-1234",
+    "email": "fake-email@gmail.com",
+    "address": "Jerusalem, Old city, 1234",
+    "password": "123456",
+    "userType": "organiser"
+}

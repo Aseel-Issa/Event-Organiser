@@ -36,7 +36,6 @@
     transform: rotate(360deg);
   }
 }
-
 .details{
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -202,6 +201,121 @@ img{
 
 
 
+label.status{
+  background-color: rgb(241, 139, 139);
+  padding: 1vh;
+  border-radius: 5px;
+}
+label.status > p{
+  display: inline-block;
+}
 
+.ThemeRow{
+  display: inline-block;
+  height: 35vh;
+  width: 30vw;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+  transition: box-shadow 0.3s ease-in-out;
+  position: relative;
+  text-align: center;
+  color: white;
+}
 
+.ThemeRow > img{
+  height: 35vh;
+  width: 30vw;
+}
 
+.arrows{
+  height: 35vh;
+  width: 5vw;
+  text-align: center;
+  background-color: Transparent;
+  background-repeat:no-repeat;
+  border: none;
+  cursor:pointer;
+  overflow: hidden;
+  outline:none;
+  font-size: 60px;
+  color: rgb(14, 225, 240);
+}
+
+.ThemeRow:hover {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.8);
+}
+
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 50px;
+  font-weight: bold;
+  color: rgb(255, 248, 220)
+}
+
+.chosenTheme {
+  position: absolute;
+  top: 70%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 30px;
+  font-weight: bold;
+  color: pink
+}
+
+.popupImg {
+  height: 27vh;
+  width: 20vw;
+  margin: 1px;
+}
+
+.pageContent{
+  margin-right: 30vh;
+  margin-left: 20vh;
+}
+
+body{
+  background-color: whitesmoke;
+}
+
+.food-option > div{
+  display: inline-block;
+}
+
+.food-image > img {
+  height: 27vh;
+  width: 25vw;
+}
+
+.food-actions{
+  height: 27vh;
+  width: 10vw;
+}
+
+.food-option{
+}
+
+.food-details{
+  height: 27vh;
+  width: 43vw;
+}
+
+textarea{
+  height: 10vh;
+}
+
+.tabBtn > .MuiButton-label{
+  background-color: rgb(14, 225, 240);
+  color: rgb(255, 248, 220);
+  font-weight: bold;
+  width: 12vw;
+  height: 7vh;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.card{
+  display: inline-block;
+  margin: 2vh;
+}

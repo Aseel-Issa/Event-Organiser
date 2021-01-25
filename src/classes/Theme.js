@@ -3,7 +3,9 @@ import {observable, makeObservable} from 'mobx'
 
 class Theme {
 
-    constructor(title, isChosen, mainImg, images){
+    constructor(id, title, isChosen, mainImg, images, category){
+        this.id = id
+        this.category = category
         this.title = title
         this.isChosen = isChosen
         this.mainImg = mainImg
@@ -11,6 +13,7 @@ class Theme {
 
         makeObservable(this, {
             title: observable,
+            category: observable,
             isChosen: observable,
             mainImg: observable,
             images: observable

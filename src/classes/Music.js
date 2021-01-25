@@ -3,7 +3,8 @@ import {observable, makeObservable} from 'mobx'
 
 class Music {
 
-    constructor(category, name, phone, price, img, specialComments, isChosen){
+    constructor(id, category, name, phone, price, img, specialComments, isChosen){
+        this.id = id
         this.category = category
         this.name = name
         this.phone = phone
