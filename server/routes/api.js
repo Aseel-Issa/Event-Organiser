@@ -58,12 +58,12 @@ router.post('/event', function (req, res) {
     res.send({ id: newEvent._id })
 
 })
-router.put('/event', function (req, res) {
+router.put('/event', async function (req, res) {
     let ID = req.body.id
     let updatedData = req.body
-    Event.findOneAndUpdate({ _id: ID }, updatedData, function (req, res) {
-        res.end()
-    })
+    const results = await Event.findOneAndUpdate({ _id: ID }, updatedData)
+    console.log(results)
+    res.send(results)
 })
 
 router.get('/events/client/:clientId', async function (req, res) {
@@ -79,7 +79,7 @@ router.get('/events/client/:clientId', async function (req, res) {
         event.client.id = clients[0]._doc._id
 
         // loading flowers data
-        if (event.flowers != null && event.flowers != undefined) {
+        if (event.flowers != null && event.flowers != undefined && event.flowers != '') {
             let flower = await Flowers.find({ _id: event.flowers.id })
             event.flowers.category = flower[0]._doc.category
             event.flowers.img = flower[0]._doc.img
@@ -87,7 +87,7 @@ router.get('/events/client/:clientId', async function (req, res) {
             event.flowers = {}
         }
         // loading theme data
-        if (event.theme != null && event.theme != undefined) {
+        if (event.theme != null && event.theme != undefined && event.theme != '') {
             let theme = await Theme.find({ _id: event.theme })
             event.theme = { ...theme[0]._doc }
             event.theme.id = theme[0]._doc._id
@@ -96,7 +96,7 @@ router.get('/events/client/:clientId', async function (req, res) {
         }
 
         // loading place data
-        if (event.place != null && event.place != undefined) {
+        if (event.place != null && event.place != undefined && event.place != '') {
             let place = await Place.find({ _id: event.place })
             event.place = { ...place[0]._doc }
             event.place.id = place[0]._doc._id
@@ -105,7 +105,7 @@ router.get('/events/client/:clientId', async function (req, res) {
         }
 
         //loading Food data
-        if (event.food != null && event.food != undefined) {
+        if (event.food != null && event.food != undefined ) {
             let foodList = await Promise.all(event.food.map(async function (element) {
                 let food = await Food.find({ _id: element.id })
                 let newElement = { ...element._doc }
@@ -137,7 +137,7 @@ router.get('/events/client/:clientId', async function (req, res) {
         }
 
         //loading organiser
-        if (event.organiser != null && event.organiser != undefined) {
+        if (event.organiser != null && event.organiser != undefined && event.organiser != '') {
             let organisers = await User.find({ _id: event.organiser })
             event.organiser = { ...organisers[0]._doc }
             event.organiser.id = organisers[0]._doc._id
@@ -155,18 +155,20 @@ router.get('/events/pending', async function (req, res) {
     let ID = req.params.clientId
     let events = await Event.find({ status: 'Pending' })
     // eventsToBeSent= events
-    console.log(events)
+    // console.log(events)
     eventsToBeSent = await Promise.all(events.map(async function (element) {
         let event = { ...element._doc }
-        // console.log(event)
-        // loading client's data
-        let clients = await User.find({ _id: event.client })
-        console.log(clients)
-        event.client = { ...clients[0]._doc }
-        event.client.id = clients[0]._doc._id
+        try{
+            let clients = await User.find({ _id: event.client })
+            event.client = { ...clients[0]._doc}
+            event.client.id = clients[0]._doc._id
+            // console.log(event)
+        }catch(e){
+            console.log('in try catch: '+e)
+        }  
 
         // loading flowers data
-        if (event.flowers != null && event.flowers != undefined) {
+        if (event.flowers != null && event.flowers != undefined && event.organiser != "") {
             let flower = await Flowers.find({ _id: event.flowers.id })
             event.flowers.category = flower[0]._doc.category
             event.flowers.img = flower[0]._doc.img
@@ -174,7 +176,7 @@ router.get('/events/pending', async function (req, res) {
             event.flowers = {}
         }
         // loading theme data
-        if (event.theme != null && event.theme != undefined) {
+        if (event.theme != null && event.theme != undefined && event.organiser != "") {
             let theme = await Theme.find({ _id: event.theme })
             event.theme = { ...theme[0]._doc }
             event.theme.id = theme[0]._doc._id
@@ -183,7 +185,7 @@ router.get('/events/pending', async function (req, res) {
         }
 
         // loading place data
-        if (event.place != null && event.place != undefined) {
+        if (event.place != null && event.place != undefined && event.organiser != "") {
             let place = await Place.find({ _id: event.place })
             event.place = { ...place[0]._doc }
             event.place.id = place[0]._doc._id
@@ -224,7 +226,7 @@ router.get('/events/pending', async function (req, res) {
         }
 
         //loading organiser
-        if (event.organiser != null && event.organiser != undefined) {
+        if (event.organiser != null && event.organiser != undefined && event.organiser != "") {
             let organisers = await User.find({ _id: event.organiser })
             event.organiser = { ...organisers[0]._doc }
             event.organiser.id = organisers[0]._doc._id
@@ -232,7 +234,7 @@ router.get('/events/pending', async function (req, res) {
             event.organiser = {}
         }
 
-        // console.log(theme)
+        console.log(event)
         return event
     }))
     res.send(eventsToBeSent)

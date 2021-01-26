@@ -17,14 +17,15 @@ class EventsPage extends Component {
             createBtn: null
         }
     }
-
-    componentDidMount() {
+    
+    componentWillMount() {
         // this.props.eventsStore.loadDummyDataToStore()   // data is already loaded in the app.js file
+        console.log('userType: '+this.props.eventsStore.userType)
         if (this.props.eventsStore.userType == 'client') {
             console.log('create button should appear')
             this.setState({
                 cardsToShow: this.props.eventsStore.events,
-                createBtn: <Button onClick={this.createNewEvent}>Create</Button>
+                createBtn: <Button className='tabBtn' onClick={this.createNewEvent}>Create</Button>
             })
         } else {
             console.log('create button should not appear')
@@ -32,6 +33,15 @@ class EventsPage extends Component {
                 cardsToShow: this.props.eventsStore.events
             })
         }
+    }
+
+    viewEvent = (event) => {
+        // Route to view event page
+        console.log(event)
+        this.props.history.push({
+            pathname: '/viewEvent',
+            state: { eventId: event.id}
+        });
     }
 
     createNewEvent = () => {
@@ -46,7 +56,7 @@ class EventsPage extends Component {
             if (element == null || element == undefined) {
                 return null
             }
-            return <div className='card' key={'div-' + element.id}><EventCard display={true} key={element.id} event={element} userType={this.props.eventsStore.userType} showAssignmentBtn={false} /></div>
+            return <div className='card' key={'div-' + element.id}><EventCard display={true} key={element.id} event={element} userType={this.props.eventsStore.userType} showAssignmentBtn={false} viewEvent={this.viewEvent}/></div>
         })
         return (
             <div class='pageContent'>

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { observer, inject } from 'mobx-react'
 import EventCard from "./EventCard";
-
+import { Route, withRouter } from 'react-router-dom';
 
 class MarketPlace extends Component {
     constructor(){
@@ -13,8 +13,8 @@ class MarketPlace extends Component {
         }
     }
 
-    componentDidMount() {
-        this.props.marketplaceStore.loadMarketplaceDummyData()
+    async componentDidMount() {
+        await this.props.marketplaceStore.loadMarketplaceDummyData()
         this.setState({
             cardsToShow:  this.props.marketplaceStore.events
         })
@@ -36,13 +36,22 @@ class MarketPlace extends Component {
         })
     }
 
+    viewEvent = (event) => {
+        // Route to view event page
+        console.log(event)
+        this.props.history.push({
+            pathname: '/viewEvent',
+            state: { eventId: event.id}
+        });
+    }
+
     render() {
         const cards = this.state.cardsToShow.map(element=> {
             if(element == null || element == undefined){
                 return null
             }
             if((element.occasion.toLowerCase() == this.state.occasionFilter.toLowerCase() ||  this.state.occasionFilter == 'All')&& (element.client.address.toLowerCase().includes(this.state.searchStr.toLowerCase()) || this.state.searchStr=='')){
-                return <div className='card' key={'div-' + element.id}><EventCard display={true} key={element.id} event={element} assignEventRequest={this.assignEventRequest} userType={this.props.marketplaceStore.userType} showAssignmentBtn={true}/></div>
+                return <div className='card' key={'div-' + element.id}><EventCard display={true} key={element.id} event={element} assignEventRequest={this.assignEventRequest} userType={this.props.marketplaceStore.userType} showAssignmentBtn={true} viewEvent={this.viewEvent}/></div>
             }
             else{
                 return null
@@ -67,4 +76,4 @@ class MarketPlace extends Component {
     }
 }
 
-export default inject("marketplaceStore")(observer(MarketPlace))
+export default withRouter(inject("marketplaceStore")(observer(MarketPlace)))

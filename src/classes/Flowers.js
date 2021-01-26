@@ -2,20 +2,20 @@ import {observable, makeObservable} from 'mobx'
 
 
 class Flowers {
-    constructor(id, category, table, entry, stands){
+    constructor(id, category, table, entry, stands, img){
         this.id = id
         this.category = category
         this.table = table
         this.entry = entry
         this.stands = stands
-        this.Img = image
+        this.img = img
 
         makeObservable(this, {
             category: observable,
             table: observable,
             entry: observable,
             stands: observable,
-            Img: observable
+            img: observable
         })
     }
 }

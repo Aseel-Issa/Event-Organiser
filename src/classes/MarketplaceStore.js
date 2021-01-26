@@ -25,7 +25,7 @@ class MarketplaceStore {
         })
     }
 
-   async getOrganiser(){
+    async getOrganiser() {
         const results = await axios.get(`http://localhost:2011/user/600ef9e9afabd51f0368227e`)
         const user = results.data[0]
         this.userType = 'organiser'
@@ -36,17 +36,20 @@ class MarketplaceStore {
     }
 
     // This function should get all the events of the logged in user
-    async loadAllPendingEvents(){
+    async loadAllPendingEvents() {
         let results
-        if(this.userType == 'client'){
+        if (this.userType == 'client') {
             // results = await axios.get(`http://localhost:2011/events/client/${userId}`)
-        }else{
+        } else {
             results = await axios.get(`http://localhost:2011/events/pending`)
         }
         // console.log('Clients events '+JSON.stringify(results.data))
         this.events = results.data.map(element => {
-            element.id= element._id
-            return new Event(element._id, element.client, element.status, element.title, element.occasion, element.date, element.startHour, element.endHour, element.numOfGuests, element.theme, element.food, element.flowers, element.musicList, element.place, element.organiser, element.assignmentRequests)
+            element.id = element._id
+            // console.log(element)
+            const event = new Event(element._id, element.client, element.status, element.title, element.occasion, element.date, element.startHour, element.endHour, element.numOfGuests, element.theme, element.food, element.flowers, element.musicList, element.place, element.organiser, element.assignmentRequests)
+            console.log(JSON.stringify(event))
+            return event
         })
     }
 
@@ -105,27 +108,27 @@ class MarketplaceStore {
         console.log(eventIndex)
         if (eventIndex != -1) {
             // update event in database too
-            const newEvent = {...event}
-        newEvent.client = event.client.id
-        newEvent.theme= event.theme? event.theme.id : null
-        newEvent.food = event.food.map(element => {
-            return {id: element.id, price: element.price}
-        })
-        newEvent.musicList = event.musicList.map(element => {
-            return {id: element.id, price: element.price}
-        })
-        const flowersId= this.flowers.find(element => {
-            return element.category == event.flowers.category
-        })
-        newEvent.flowers = {
-            id: flowersId,
-            table: event.flowers.table,
-            entry: event.flowers.entry,
-            stands: event.flowers.stands
-        }
-        newEvent.place = event.place.id
-        newEvent.organiser = event.organizer? event.organizer.id: null
-        newEvent.assignmentRequests.push(this.organiser.id)
+            const newEvent = { ...event }
+            newEvent.client = event.client.id
+            newEvent.theme = event.theme ? event.theme.id : null
+            newEvent.food = event.food.map(element => {
+                return { id: element.id, price: element.price }
+            })
+            newEvent.musicList = event.musicList.map(element => {
+                return { id: element.id, price: element.price }
+            })
+            const flowersId = this.flowers.find(element => {
+                return element.category == event.flowers.category
+            })
+            newEvent.flowers = {
+                id: flowersId,
+                table: event.flowers.table,
+                entry: event.flowers.entry,
+                stands: event.flowers.stands
+            }
+            newEvent.place = event.place.id
+            newEvent.organiser = event.organizer ? event.organizer.id : null
+            newEvent.assignmentRequests.push(this.organiser.id)
             try {
                 const result = await axios.put(`http://localhost:2011/event`, newEvent)
                 this.events[eventIndex].assignmentRequests.push(assignmentReq)
