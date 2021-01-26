@@ -37,6 +37,7 @@ class MarketplaceStore {
 
     // This function should get all the events of the logged in user
     async loadAllPendingEvents() {
+        console.log('start loading')
         let results
         if (this.userType == 'client') {
             // results = await axios.get(`http://localhost:2011/events/client/${userId}`)
@@ -51,6 +52,8 @@ class MarketplaceStore {
             console.log(JSON.stringify(event))
             return event
         })
+        console.log(this.events)
+        console.log('end loading')
     }
 
     async loadMarketplaceDummyData() {

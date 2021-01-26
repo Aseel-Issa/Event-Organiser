@@ -216,7 +216,8 @@ class EventStore {
             // post request should return the id of the created event
              const result =  await axios.post(`http://localhost:2011/event`, newEvent)
             if(result){
-                const eventIndex = this.events.findIndex(element => {return element.id == newEvent.id})
+                const eventIndex = this.events.findIndex(element => {return element.id == tempEvent.id})
+                console.log(eventIndex)
                 this.events[eventIndex].id = result.id
             //  return result.id
                 return true

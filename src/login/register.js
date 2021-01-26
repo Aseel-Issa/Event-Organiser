@@ -49,10 +49,10 @@ class Register extends Component {
 
   
   changeType =() =>{
-    if(userType == ("Client")){
+    if(this.state.userType == ("Client")){
         this.setState({userType : "Manger"})
     }
-    if(userType == ("Manger")){
+    if(this.state.userType == ("Manger")){
         this.setState({userType : "Client"})
     }
    

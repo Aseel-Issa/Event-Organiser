@@ -21,7 +21,7 @@ class Login extends Component {
   login = async () =>{
     let info = await axios.get(`http://localhost:2011/login/${this.state.name}/${this.state.password}`)
     if (info){
-
+          console.log(info)
     }else{
         alert("the username or the password is rong")
     }
@@ -36,7 +36,7 @@ class Login extends Component {
   }
 
   render() {
-    if (!isRegister){
+    if (!this.state.isRegister){
         return(
             <Register />
         )
