@@ -8,26 +8,57 @@ import Music from './music'
 import Place from './place'
 import { FaEdit } from "react-icons/fa";
 import Button from '@material-ui/core/Button';
+import { Route, withRouter } from 'react-router-dom';
+
 
 
 
 class Event extends Component {
-    render() {   
-    this.props.eventsStore.loadDummyDataToStore()
-    const event = this.props.eventsStore.events[0]
+
+    constructor(){
+        super()
+        this.state = {
+            event: undefined
+        }
+    }
+
+    editEvent = () => {
+        // Route to view event page
+        console.log(this.state.event)
+        this.props.history.push({
+            pathname: '/editEventPage',
+            state: { eventId: this.state.event.id }
+        });
+    }
+    componentDidMount(){
+        this.setState({
+            event: this.props.eventsStore.getEventById(this.props.location.state.eventId)
+        })
+    }
+
+    render() {
+        if(this.state.event == undefined){
+            return null
+        }
+        // let editBtn = null
+        // if(this.props.showEdit){
+        //     editBtn = <span className="edit"><FaEdit size={50} onClick={this.editEvent} /></span>
+        // }
+        const event = this.state.event
+        console.log(JSON.stringify(event))
         return (
-            <div>
+            <div className='pageContent'>
                 <div className="head">
                     <div>
                         <span className="status">{event.status}</span>
-                        <span className="edit"><FaEdit size={50}/></span>
+                        <span className="edit"><FaEdit size={50} onClick={this.editEvent} /></span>
                     </div>
                 </div>
-                <Details details={event}/>
-                <Theme theme={event.themes} />
+                <Details details={event} />
+                <Theme theme={event.theme} />
                 <Food food={event.food} />
                 <Flowers flowers={event.flowers} />
-                <Music music={event.music} />
+                <Music music={event.musicList} />
                 <Place place={event.place} />
                 <div className="buttons">
                     <Button variant="contained" color="primary">Cancel</Button>
@@ -38,4 +69,4 @@ class Event extends Component {
     }
 }
 
-export default inject("eventsStore")(observer(Event));
+export default withRouter(inject("eventsStore")(observer(Event)));
