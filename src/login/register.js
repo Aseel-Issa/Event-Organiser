@@ -43,7 +43,8 @@ class Register extends Component {
       confirmPassword:"",
       phone:"",
       email:"",
-      addres:""
+      addres:"",
+      messages: []
     })
   }
 

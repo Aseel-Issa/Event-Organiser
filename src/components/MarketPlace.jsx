@@ -49,7 +49,7 @@ class MarketPlace extends Component {
             }
         })
         return (
-            <div class='pageContent'>
+            <div className='pageContent'>
             <label>Occasion</label> &nbsp;&nbsp;
                 <select value={this.state.occasion} onChange={this.filterByOccasion}>
                     <option value="All">All</option>
