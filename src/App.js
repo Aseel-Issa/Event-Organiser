@@ -3,6 +3,7 @@ import { observer, inject } from 'mobx-react'
 import { BrowserRouter as Router, Route, Link, HashRouter } from 'react-router-dom'
 import React, { Component } from 'react'
 import EditEvent from './components/EditEvent';
+import Event from './components/viewEventComponents/event'
 import MarketPlace from './components/MarketPlace';
 import EventsPage from './components/EventsPage';
 import { createBrowserHistory as history} from 'history';

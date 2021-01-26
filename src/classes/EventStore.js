@@ -7,7 +7,7 @@ import Food from './Food';
 import Flowers from './Flowers';
 import Music from './Music';
 import Place from './Place';
-import Organiser from './Organiser';
+import Organiser from './organiser';
 
 class EventStore {
     constructor() {
@@ -74,7 +74,6 @@ class EventStore {
     //     images1.push('/images/cinderella4.jpg')
     //     const theme1 = new Theme('1', 'Cinderella', true, '/images/cinderella1.jpeg', images1, 'wedding')
     //     themes.push(theme1)
-       
     //     const images2 = []
     //     images2.push('/images/hawaiian1.jpg')
     //     images2.push('/images/hawaiian2.jpeg')
