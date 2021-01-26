@@ -8,6 +8,7 @@ class EditThemes extends Component {
         super()
         this.state = {
             toDisplayThemes:[],
+            allThemes: [],
             current: 0
         }
     }
@@ -24,8 +25,14 @@ class EditThemes extends Component {
     }
 
     componentDidMount(){
+        console.log('did mount')
         this.fillThemes()
     }
+    // componentDidUpdate(){
+    //     // this.setState({allThemes: this.props.updateThemeList})
+    //     this.fillThemes()
+    //     // this.fillThemes()
+    // }
 
     moveLeft = () =>{
         if(this.state.current!=0){
@@ -45,6 +52,11 @@ class EditThemes extends Component {
     }
 
     render() {
+        console.log('rendering editThemes component')
+        // console.log('this.props.updateThemeList '+this.props.updateThemeList)
+        // if(this.props.updateThemeList){
+        //     this.fillThemes()
+        // }
         const allThemes = this.state.toDisplayThemes.map(element => { return <Theme theme={element} key={element.id} changeTheme={this.changeTheme}/> })
         // console.log(JSON.stringify(allThemes))
 

@@ -66,8 +66,9 @@ class EditDetails extends Component {
         newEvent.occasion = e.target.value
         this.setState({
             occasion: e.target.value
-        }, () => {this.props.eventsStore.LoadAllThemes()
-            this.props.updateEventState(newEvent)})
+        }, async() => {await this.props.eventsStore.LoadAllThemes(e.target.value)
+            this.props.updateEventState(newEvent)
+            this.props.updateThemeList()})
     }
 
     handleGuests = (e) => {

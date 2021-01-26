@@ -9,6 +9,7 @@ import EditFlowersSection from './EditFlowersSection'
 import { Button } from '@material-ui/core';
 import Flowers from '../classes/Flowers'
 import Event from '../classes/Event'
+import { Route, withRouter } from 'react-router-dom';
 
 class EditEvent extends Component {
     constructor() {
@@ -16,7 +17,9 @@ class EditEvent extends Component {
         this.state = {
             event: undefined,
             saveUpdateBtn: null,
-            cancelBtn: null
+            cancelBtn: null,
+            createThemeList: true,
+            createThemeList2: false
         }
     }
 
@@ -25,7 +28,7 @@ class EditEvent extends Component {
             console.log('create instance')
             const flowersType = this.props.eventsStore.flowers[0]
             const fakeId = Math.floor(Math.random() * 1000000);
-            const emptyEvent = new Event(fakeId.toString(), this.props.eventsStore.getClient(), 'Pending', '', 'Wedding', '', '', '', 0, this.props.eventsStore.themes[0], [], new Flowers(flowersType.id, flowersType.category, { onTable: false, price: flowersType.onTablePrice }, { onEntry: false, price: flowersType.onEntryPrice }, { numOfStands: 0, price: flowersType.standPrice }), [], [], null, [])
+            const emptyEvent = new Event(fakeId.toString(), this.props.eventsStore.client, 'Pending', '', 'Wedding', '', '', '', 0, this.props.eventsStore.themes[0], [], new Flowers(flowersType.id, flowersType.category, { onTable: false, price: flowersType.onTablePrice }, { onEntry: false, price: flowersType.onEntryPrice }, { numOfStands: 0, price: flowersType.standPrice }), [], [], null, [])
             this.props.eventsStore.events.push(emptyEvent)
             console.log('emptyEvent: ' + JSON.stringify(emptyEvent))
             this.setState({
@@ -41,6 +44,14 @@ class EditEvent extends Component {
                 cancelBtn: <Button className='tabBtn' onClick={this.cancelEditingRedirectToViewPage}>Cancel</Button>
             })
         }
+        console.log('this.props.eventsStore.themes')
+        console.log('****'+JSON.stringify(this.props.eventsStore.themes))
+        // this.setState({ updateThemeList: this.props.eventsStore.themes })
+    }
+
+    updateThemeList = () => {
+        this.setState({ createThemeList: !this.state.createThemeList,
+            createThemeList2: !this.state.createThemeList2 })
     }
 
     updateEventState = (newEvent) => {
@@ -52,10 +63,14 @@ class EditEvent extends Component {
         this.props.eventsStore.updateEvent(this.state.event)
     }
 
-    saveEvent = () => {
+    saveEvent = async () => {
         // const id = 
         // console.log('save this event'+ JSON.stringify(this.state.event))
-        this.props.eventsStore.createEvent({...this.state.event})
+        await this.props.eventsStore.createEvent({...this.state.event})
+        // route to eventsPage component
+        this.props.history.push({
+            pathname: '/events'
+        });
         // route to event view page
     }
 
@@ -68,14 +83,19 @@ class EditEvent extends Component {
     }
 
     render() {
+        let themes
+        if(this.state.createThemeList || this.state.createThemeList2){
+            console.log('creating new EditThemes')
+            themes = <EditThemes key={Math.random()} event={this.state.event} updateEventState={this.updateEventState} updateThemeList={this.state.updateThemeList}/>
+        }
         if (this.state.event == undefined) {
             return null
         }
         return (
             <div class='pageContent'>
-                <EditInfo event={this.state.event} updateEventState={this.updateEventState} />
+                <EditInfo event={this.state.event} updateEventState={this.updateEventState} updateThemeList={this.updateThemeList}/>
                 <hr></hr>
-                <EditThemes event={this.state.event} updateEventState={this.updateEventState} />
+                {themes}
                 <hr></hr>
                 <EditFoodSection event={this.state.event} updateEventState={this.updateEventState} />
                 <hr></hr>
@@ -93,4 +113,4 @@ class EditEvent extends Component {
 
 }
 
-export default inject("eventsStore")(observer(EditEvent))
+export default withRouter(inject("eventsStore")(observer(EditEvent)))
