@@ -39,8 +39,14 @@ class EventStore {
         })
     }
 
-    getClient(){
-        const client = new Client('1', 'Johne Smith', '050-123-456', 'johnesmith@gmail.com', 'Jerusalem, Old city, 1234')
+    async getClient(){
+        // load a specific user from d.b
+        // to be changed when fully integrated
+        const results = await axios.get(`http://localhost:2011/user/600ef999afabd51f0368227d`)
+        const user = results.data[0]
+        this.userType = 'client'
+        const client = new Client(user._id, user.name, user.phone, user.email, user.address)
+        this.client = client
         return client
         // to be return this.client
     }
@@ -52,13 +58,13 @@ class EventStore {
         await this.LoadAllPlacesOptions()
         await this.LoadAllMusicOptions()
         await this.LoadAllFlowerTypes()
+        await this.getClient()
+        await this.loadAllEvents(this.client.id)
         console.log('end loadDummyDataToStore')
+        // this.userType = 'client'
 
-
-        this.userType = 'client'
-
-        const client = new Client('1', 'Johne Smith', '050-123-456', 'johnesmith@gmail.com', 'Jerusalem, Old city, 1234')
-        this.client = client
+        // const client = new Client('1', 'Johne Smith', '050-123-456', 'johnesmith@gmail.com', 'Jerusalem, Old city, 1234')
+        // this.client = client
        
     //     const themes = []
     //     const images1 = []
@@ -132,20 +138,21 @@ class EventStore {
     async loadAllEvents(userId){
         let results
         if(this.userType == 'client'){
-            results = await axios.get(`http://localhost:3001/events/client/:${userId}`)
+            results = await axios.get(`http://localhost:2011/events/client/${userId}`)
         }else{
-            results = await axios.get(`http://localhost:3001/events/organiser/:${userId}`)
+            results = await axios.get(`http://localhost:2011/events/organiser/${userId}`)
         }
-        // console.log(results)
-        this.events = results.map(element => {
-            return new Event(element)
+        // console.log('Clients events '+JSON.stringify(results.data))
+        this.events = results.data.map(element => {
+            element.id= element._id
+            return new Event(element._id, element.client, element.status, element.title, element.occasion, element.date, element.startHour, element.endHour, element.numOfGuests, element.theme, element.food, element.flowers, element.musicList, element.place, element.organiser, element.assignmentRequests)
         })
     }
 
     // updates an event from the client side and reflects it to the database too
     async updateEvent(newEvent){
         try{
-            const result =  await axios.put(`http://localhost:3001/event`, newEvent)
+            const result =  await axios.put(`http://localhost:2011/event`, newEvent)
             if(result){
                 const eventIndex = this.events.findIndex(element => {return element.id == newEvent.id})
                 this.events[eventIndex] = newEvent
@@ -181,17 +188,17 @@ class EventStore {
         newEvent.place = event.place.id
         newEvent.organiser = event.organizer? event.organizer.id: null
 
-        console.log('created event: '+JSON.stringify(newEvent))
+        // console.log('created event: '+JSON.stringify(newEvent))
         
         try{
             // post request should return the id of the created event
-            //  const result =  await axios.post(`http://localhost:3001/event`, newEvent)
-            // if(result){
-            //     const eventIndex = this.events.findIndex(element => {return element.id == newEvent.id})
-            //  //   this.events[eventIndex].id = result.id
-            // //  return result.id
-            //     return true
-            // }
+             const result =  await axios.post(`http://localhost:2011/event`, newEvent)
+            if(result){
+                const eventIndex = this.events.findIndex(element => {return element.id == newEvent.id})
+                this.events[eventIndex].id = result.id
+            //  return result.id
+                return true
+            }
         }catch(e){
             console.log('Changes was not save to database')
             console.log(e)
@@ -215,12 +222,13 @@ class EventStore {
     async LoadAllThemes(category){
         console.log('LoadAllThemes')
         const results= await axios.get(`http://localhost:2011/theme/${category}`)
-        console.log(results)
+        // console.log(results)
         this.themes= results.data.map(element => {
             let newElement = {...element}
             newElement.id = element._id
             return newElement
         })
+        console.log(this.themes)
     }
 
     // async LoadClientInfo(userId){
@@ -249,7 +257,7 @@ class EventStore {
         // console.log('LoadAllMusicOptions')
         const results = await axios.get(`http://localhost:2011/music`)
         // console.log(results)
-        this.music = results.data.map(element => {
+        this.musicList = results.data.map(element => {
             let newElement = {...element}
             newElement.id = element._id
             return newElement
@@ -257,7 +265,7 @@ class EventStore {
     }
     async LoadAllFlowerTypes(){
         const results = await axios.get(`http://localhost:2011/flower`)
-        console.log(results)
+        // console.log(results)
         this.flowers = results.data.map(element => {
             let newElement = {...element}
             newElement.id = element._id
@@ -297,7 +305,9 @@ class EventStore {
         newTheme.isChosen=true
         console.log(newTheme)
         const oldTheme = this.themes.find(element => { return element.id == updated.theme.id})
-        oldTheme.isChosen=false
+        if(oldTheme){
+            oldTheme.isChosen=false
+        }
         updated.theme = newTheme
         console.log(oldTheme)
         this.events[index] = updated

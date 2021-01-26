@@ -35,7 +35,7 @@ const EventSchema = new Schema({
               price: Number
             }],
     place:  String, // id
-    organizer: String, // id
+    organiser: String, // id
     assignmentRequests: [String] // array of organiser's ids
 })
 
