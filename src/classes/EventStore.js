@@ -7,7 +7,7 @@ import Food from './Food';
 import Flowers from './Flowers';
 import Music from './Music';
 import Place from './Place';
-import Organiser from './organiser';
+// import Organiser from './Organiser';
 
 class EventStore {
     constructor() {
@@ -46,19 +46,26 @@ class EventStore {
         const user = results.data[0]
         this.userType = 'client'
         const client = new Client(user._id, user.name, user.phone, user.email, user.address)
+        // console.log(client)
         this.client = client
         return client
         // to be return this.client
     }
 
+    getEventById(eventId){
+        const event  = this.events.find(element => {return element.id == eventId})
+        // console.log('eventId: '+eventId+'event in getEventById'+event)
+        return event
+    }
+
     async loadDummyDataToStore(){
         console.log('start loadDummyDataToStore')
+        await this.getClient()
         await this.LoadAllFoodOptions()
         await this.LoadAllThemes('wedding')
         await this.LoadAllPlacesOptions()
         await this.LoadAllMusicOptions()
         await this.LoadAllFlowerTypes()
-        await this.getClient()
         await this.loadAllEvents(this.client.id)
         console.log('end loadDummyDataToStore')
         // this.userType = 'client'
@@ -149,27 +156,10 @@ class EventStore {
         })
     }
 
-    // updates an event from the client side and reflects it to the database too
-    async updateEvent(newEvent){
-        try{
-            const result =  await axios.put(`http://localhost:2011/event`, newEvent)
-            if(result){
-                const eventIndex = this.events.findIndex(element => {return element.id == newEvent.id})
-                this.events[eventIndex] = newEvent
-                return true
-            }
-        }catch(e){
-            console.log('Changes was not save to database')
-            console.log(e)
-        }finally{
-            return false
-        }
-    }
-
-    async createEvent(event){
+    manipulateEventToSendToServer(event){
         const newEvent = {...event}
         newEvent.client = event.client.id
-        newEvent.theme= event.theme? event.theme.id : null
+        newEvent.theme= event.theme? event.theme.id : ""
         newEvent.food = event.food.map(element => {
             return {id: element.id, price: element.price}
         })
@@ -185,10 +175,42 @@ class EventStore {
             entry: event.flowers.entry,
             stands: event.flowers.stands
         }
-        newEvent.place = event.place.id
-        newEvent.organiser = event.organizer? event.organizer.id: null
+        newEvent.place = event.place? event.place.id: ""
+        newEvent.organiser = event.organizer? event.organizer.id: ""
+        return newEvent
+    }
 
-        // console.log('created event: '+JSON.stringify(newEvent))
+    // updates an event from the client side and reflects it to the database too
+    async updateEvent(event){
+
+        console.log('updateEvent in eventsstore')
+        const newEvent = this.manipulateEventToSendToServer(event)
+        console.log('updated event: '+JSON.stringify(newEvent))
+
+        try{
+            const result =  await axios.put(`http://localhost:2011/event`, newEvent)
+            if(result){
+                const eventIndex = this.events.findIndex(element => {return element.id == newEvent.id})
+                this.events[eventIndex] = event
+                return true
+            }
+        }catch(e){
+            console.log('Changes was not save to database')
+            console.log(e)
+        }finally{
+            return false
+        }
+    }
+
+    async createEvent(event){
+        const tempEvent = this.manipulateEventToSendToServer(event)
+        let newEvent = {}
+        for (const key in tempEvent) {
+            if(key != 'id'){
+                newEvent[key] = tempEvent[key]
+            }
+        }
+        console.log('created event: '+JSON.stringify(newEvent))
         
         try{
             // post request should return the id of the created event

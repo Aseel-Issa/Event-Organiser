@@ -7,32 +7,46 @@ import Event from './components/viewEventComponents/event'
 import MarketPlace from './components/MarketPlace';
 import EventsPage from './components/EventsPage';
 import { createBrowserHistory as history} from 'history';
+// import event from './components/viewEventComponents/event'
 // import { hashHistory } from 'react-router';
 
 export class App extends Component {
 
-  async componentDidMount() {
+  constructor(){
+    super()
+    this.state= {
+      appIsReady : false
+    }
+  }
+
+  // async componentDidMount() {
+  //   await this.props.eventsStore.loadDummyDataToStore()
+  // }
+  async componentWillMount () {
     await this.props.eventsStore.loadDummyDataToStore()
+    this.setState({appIsReady: true})
   }
 
   render() {
-    const editEventPage = this.props.eventsStore.events.map(element => {
-      return <EditEvent event={element} />
-    })
+    if(!this.state.appIsReady){
+      return null
+    }
     return (
       <div className='app'>
       <HashRouter>
         <Router >
-          <Link to="/editEvent">EditEventPage</Link>
+          {/* <Link to="/editEvent">EditEventPage</Link> */}
           &nbsp;&nbsp;
           <Link to="/marketplace">marketplace</Link>
           &nbsp;&nbsp;
           <Link to="/events">EventsPage</Link>
           &nbsp;&nbsp;
-            <Route path="/editEvent" component={() => editEventPage} />
+            {/* <Route path="/editEvent" component={() => editEventPage} /> */}
             <Route path="/createEvent" component={() => <EditEvent/>} />
             <Route path="/marketplace" component={() => <MarketPlace/>} />
             <Route path="/events" component={() => <EventsPage/>} />
+            <Route path="/viewEvent" component={() => <Event/>} />
+            <Route path="/editEventPage" component={() => <EditEvent/>} />
         </Router>
         </HashRouter>
       </div>

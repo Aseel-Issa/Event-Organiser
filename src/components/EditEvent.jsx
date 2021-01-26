@@ -24,11 +24,12 @@ class EditEvent extends Component {
     }
 
     componentDidMount() {
-        if (this.props.event == undefined) {
+        if (this.props.event == undefined && this.props.location.state == undefined) {
+             // this code workes when creating new event
             console.log('create instance')
             const flowersType = this.props.eventsStore.flowers[0]
             const fakeId = Math.floor(Math.random() * 1000000);
-            const emptyEvent = new Event(fakeId.toString(), this.props.eventsStore.client, 'Pending', '', 'Wedding', '', '', '', 0, this.props.eventsStore.themes[0], [], new Flowers(flowersType.id, flowersType.category, { onTable: false, price: flowersType.onTablePrice }, { onEntry: false, price: flowersType.onEntryPrice }, { numOfStands: 0, price: flowersType.standPrice }), [], [], null, [])
+            const emptyEvent = new Event(fakeId.toString(), this.props.eventsStore.client, 'Pending', '', 'Wedding', '', '', '', 0, this.props.eventsStore.themes[0], [], new Flowers(flowersType.id, flowersType.category, { onTable: false, price: flowersType.onTablePrice }, { onEntry: false, price: flowersType.onEntryPrice }, { numOfStands: 0, price: flowersType.standPrice }, flowersType.img), [], [], null, [])
             this.props.eventsStore.events.push(emptyEvent)
             console.log('emptyEvent: ' + JSON.stringify(emptyEvent))
             this.setState({
@@ -36,7 +37,15 @@ class EditEvent extends Component {
                 saveUpdateBtn: <Button className='tabBtn' onClick={this.saveEvent}>Save</Button>,
                 cancelBtn: <Button className='tabBtn' onClick={this.cancelEditingRedirectToEventsPage}>Cancel</Button>
             })
-        } else {
+        } else if(this.props.location.state.eventId){
+            // this code workes when the edit page s being accessed from the event's view page
+            const event = this.props.eventsStore.getEventById(this.props.location.state.eventId)
+            this.setState({
+                event: event,
+                saveUpdateBtn: <Button className='tabBtn' onClick={this.updateEvent}>Update</Button>,
+                cancelBtn: <Button className='tabBtn' onClick={this.cancelEditingRedirectToViewPage}>Cancel</Button>
+            })
+        } else{
             console.log('update instance')
             this.setState({
                 event: this.props.event,
@@ -59,8 +68,13 @@ class EditEvent extends Component {
         this.setState({ event: newEvent })
     }
 
-    updateEvent = () => {
-        this.props.eventsStore.updateEvent(this.state.event)
+    updateEvent = async () => {
+        console.log('editevent.updateEvent')
+        await this.props.eventsStore.updateEvent({...this.state.event})
+        this.props.history.push({
+            pathname: '/viewEvent',
+            state: { eventId: this.state.event.id}
+        });
     }
 
     saveEvent = async () => {
@@ -75,11 +89,19 @@ class EditEvent extends Component {
     }
 
     cancelEditingRedirectToViewPage = () => {
-        // route to the view event page o
+        // route to the view event page 
+        this.props.history.push({
+            pathname: '/viewEvent',
+            state: { eventId: this.state.event.id}
+        });
     }
 
     cancelEditingRedirectToEventsPage = () => {
         // route to the events page
+        // route to eventsPage component
+        this.props.history.push({
+            pathname: '/events'
+        });
     }
 
     render() {
@@ -105,7 +127,8 @@ class EditEvent extends Component {
                 <hr></hr>
                 <EditPlaceSection event={this.state.event} updateEventState={this.updateEventState} />
                 <hr></hr>
-                <Button className='tabBtn' onClick={this.cancelEditing}>Cancel</Button>
+                {this.state.cancelBtn}
+                {/* <Button className='tabBtn' onClick={this.cancelEditing}>Cancel</Button> */}
                 {this.state.saveUpdateBtn}
             </div>
         )

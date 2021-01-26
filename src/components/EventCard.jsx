@@ -8,6 +8,7 @@ import CardActions from '@material-ui/core/CardActions';
 import Typography from '@material-ui/core/Typography';
 import { red } from '@material-ui/core/colors';
 import { Button } from '@material-ui/core';
+import { Route, withRouter } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -37,6 +38,7 @@ export default function EventCard(props) {
 
     const viewEvent = () => {
         // Route to view event page
+        props.viewEvent(props.event)
     }
 
     const assignEventRequest = () => {
