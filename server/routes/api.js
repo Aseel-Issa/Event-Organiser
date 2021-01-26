@@ -365,7 +365,7 @@ router.post('/music', function (req, res) {
 router.get('/user/:usernmae/:password', function (req, res) {
     let username = req.params.username
     let password = req.params.password
-    User.find({ nmae: username, password: password }, function (err, userData) {
+    User.find({ name: username, password: password }, function (err, userData) {
         if (userData = []) {
             res.send(false)
         } else {

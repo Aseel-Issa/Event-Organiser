@@ -8,7 +8,7 @@ import Food from './Food';
 import Flowers from './Flowers';
 import Music from './Music';
 import Place from './Place';
-import Organiser from './Organiser';
+import Organiser from './organiser';
 import AssignmentRequest from './AssignmentRequest';
 
 class MarketplaceStore {

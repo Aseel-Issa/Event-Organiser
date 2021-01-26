@@ -4,7 +4,7 @@ import {observable, makeObservable} from 'mobx'
 
 class Client {
 
-    constructor(id, name, phone, email, address){
+    constructor(id, name, phone, email, address, messages){
         this.id = id
         this.name = name
         this.phone = phone

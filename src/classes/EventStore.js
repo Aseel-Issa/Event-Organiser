@@ -218,6 +218,7 @@ class EventStore {
             if(result){
                 const eventIndex = this.events.findIndex(element => {return element.id == newEvent.id})
                 this.events[eventIndex].id = result.id
+                
             //  return result.id
                 return true
             }
@@ -228,6 +229,7 @@ class EventStore {
             return false
         }
     }
+
 
     assignClient(client){
         this.client = client
